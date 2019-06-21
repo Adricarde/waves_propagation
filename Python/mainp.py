@@ -19,7 +19,11 @@ class Simulation:
 
     yield time
 
+  def wave1(self, row):
 
+    time = float(row[0]) * 1000
+
+    yield time
 
 
 
@@ -42,7 +46,10 @@ if __name__ == "__main__":
 #Inicio de la integración
   U=np.zeros((2,p.T,p.Xsteps));
   k=1;
-  U[:,k,:]=CI;
+  print(CI.shape)
+  print(U.shape)
+  #U[:,k,:]=np.reshape(CI,(2,p.T));
+  U[1,k,:]=CI[0,0,:]
   k=2;  #Iniciamos con Euler
   #[F]=wave1( CI,p);
   #U(:,k,:)=U(:,k-1,:)+s*F;
