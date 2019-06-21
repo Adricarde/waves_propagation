@@ -16,12 +16,8 @@ class Simulation:
   def _readRow(self, row):
 
     time = float(row[0]) * 1000
-    x = float(row[1])
-    y = float(row[2]) 
-    z = float(row[3]) 
 
     yield time
-    yield x
 
 
 
