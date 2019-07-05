@@ -12,7 +12,7 @@ import ffmpeg
        
 class Simulation:
 
-  def __init__(self, dt=0.0001,c=1,T=1000,Xsteps=100,Ysteps=100,
+  def __init__(self, dt=0.0001,c=100,T=1000,Xsteps=100,Ysteps=100,
                     Xlength=0.5,Ylength=0.5,prop_eq="1D"):
 
     self.dt=dt
@@ -104,8 +104,8 @@ if __name__ == "__main__":
   sim_args = {"dt" : 0.00001,
               "T" : 700,
               "prop_eq" : mode,
-              "Xsteps" : 100,
-              "Ysteps" : 100}
+              "Xsteps" : 20,
+              "Ysteps" : 20}
   
   p=Simulation(**sim_args);
   
@@ -140,7 +140,7 @@ if __name__ == "__main__":
   for k in range(3,p.T-1):
 
     #U[:,k,:]=p.RK4(U[:,k-1,:])
-    U[:,k,:,:]=p.RK4(U[:,k-1,:,:])
+    U[:,k,:,:]=p.ABM2(U[:,k-1,:,:],U[:,k-2,:,:])
     #U[:,k,:]=p.ABM2(U[:,k-1,:],U[:,k-2,:])
     
     if print_count > int(p.T/10):
@@ -158,6 +158,7 @@ if __name__ == "__main__":
       #plt.axis([min(x_vect), max(x_vect), -1000, 1000])
       plt.pause(0.001)
       plt.clf()
+    plt.draw()
     
   elif mode=="2D":  
     maxlim=np.amax(U[0,10:,:])
@@ -186,22 +187,14 @@ if __name__ == "__main__":
     plt.rcParams['animation.ffmpeg_path'] = 'C:/Users/ADCP/Downloads/ffmpeg-20190704-43e0ddd-win64-static/bin/ffmpeg.exe'
     FFwriter=animation.FFMpegWriter(fps=10, extra_args=['-vcodec', 'libx264'])
     im_ani.save('./im.mp4', writer=FFwriter)
-    plt.show()
+    #plt.show()
 
-    #for k in range(0,p.T-1,1):
-      #ax.plot_surface(X,Y, U[0,k,:,:], cmap=cm.coolwarm)
-      #ax.set_zlim(-1.0, 1.0)
-      #ax.set_ylim(-1.0, 1.0)
-      #ax.set_xlim(-1.0, 1.0)
-      #plt.axis([min(x_vect), max(x_vect), minlim, maxlim])
-      #plt.axis([min(x_vect), max(x_vect), -1000, 1000])
-      #plt.pause(0.01)
+
 
 
       
 
 
-  #plt.draw()
   
   
   
